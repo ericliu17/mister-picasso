@@ -6,6 +6,8 @@ import os
 import shutil
 import re
 from PIL import Image
+from color_quantization import quantize
+import matplotlib.pyplot as plt
 
 
 class getData(object):
@@ -63,36 +65,41 @@ class getData(object):
         shutil.rmtree(self.path)
         os.rename(temp_path, self.path)
 
-        # print 'Renamed {} files in {}.'.format(count, \
-        # self.path)
-
 
     def make_data(self, size, n_colors):
         filenames = os.listdir(self.path)
-        thumb_path = self.path + 'thumbnails/'
-        os.makedirs(thumb_path)
-        res = size[0] * size[1]
-        n_samples = len(filenames)
-        data = []
+        img_data = []
+        coll_data = []
 
-        print('Creating thumbnails...')
+        print('Creating quantized thumbnails...')
         for filename in filenames:
-            infile = thumb_path + filename
-            self.resize_quantize(filename, size, n_colors)
-            img_data = np.asarray(Image.open(infile))
-            img_data = img_data.reshape(res, 3)
-            img_data = map(tuple, img_data)
-            data.extend(img_data)
+            infile = self.path + filename
+            img = Image.open(infile)
+            img = img.resize(size)
+            img = np.asarray(img)
+            img = quantize(img, n_colors)
+            w, h, d = img.shape
+            coll = img.reshape(w * h, d)
+            img_data.append(img)
+            coll_data.append(coll)
 
-        return data
+        img_data = np.array(img_data)
+        coll_data = np.array(coll_data)
+        w, h, d = coll_data.shape
+        coll_data = np.reshape(coll_data, (w * h, d))
+        # self.plot_image(img_data[4], n_colors)
+        return img_data, map(tuple, coll_data)
 
 
-    def resize_quantize(self, filename, size, n_colors):
-        thumb_path = self.path + 'thumbnails/'
-        infile = self.path + filename
-        outfile = thumb_path + filename
-        img_data = Image.open(infile)
-        img_data = img_data.resize(size)
-        img_data = img_data.convert('P', palette=Image.ADAPTIVE,
-                                    colors=n_colors)
-        img_data.convert('RGB').save(outfile)
+    def plot_image(self, data, n_colors):
+        data = data / 255
+        w, h, d = data.shape
+
+        fig = plt.figure(frameon=False)
+        fig.set_size_inches(1, 1)
+        ax = plt.Axes(fig, [0., 0., 1., 1.])
+        ax.set_axis_off()
+        fig.add_axes(ax)
+
+        ax.imshow(data, aspect='normal')
+        fig.savefig('test_{}.png'.format(n_colors), dpi=w)
