@@ -71,24 +71,16 @@ class getData(object):
         img_data = []
         coll_data = []
 
-        print('Creating quantized thumbnails...')
+        print('Creating {} quantized thumbnails...'.format(len(filenames)))
         for filename in filenames:
             infile = self.path + filename
             img = Image.open(infile)
             img = img.resize(size)
             img = np.asarray(img)
             img = quantize(img, n_colors)
-            w, h, d = img.shape
-            coll = img.reshape(w * h, d)
             img_data.append(img)
-            coll_data.append(coll)
 
-        img_data = np.array(img_data)
-        coll_data = np.array(coll_data)
-        w, h, d = coll_data.shape
-        coll_data = np.reshape(coll_data, (w * h, d))
-        # self.plot_image(img_data[4], n_colors)
-        return img_data, map(tuple, coll_data)
+        return np.array(img_data)
 
 
     def plot_image(self, data, n_colors):
