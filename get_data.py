@@ -7,17 +7,16 @@ import shutil
 import re
 from PIL import Image
 from color_quantization import quantize
-import matplotlib.pyplot as plt
 
 
-class getData(object):
+class GetData(object):
 
     def __init__(self, path, artists):
         self.path = path
         self.artists = sorted(artists)
 
 
-    def wiki_scrape(self, url):
+    def scraper(self, url):
         if not os.path.isdir(self.path):
             os.makedirs(self.path)
 
@@ -25,7 +24,7 @@ class getData(object):
             webpage = urllib.urlopen(url + artist).read()
             soup = BeautifulSoup(webpage, 'html.parser')
             tags = ['thumbinner', 'gallerybox']
-            classes = soup.find_all(True, {'class':tags})
+            classes = soup.find_all(True, {'class': tags})
             links = [img['src'] for item in classes
                      for img in item.find_all('img')]
             count = 0
@@ -51,6 +50,24 @@ class getData(object):
         self.rename_files()
 
 
+    def make_data(self, size, n_colors):
+        filenames = os.listdir(self.path)
+        img_data = []
+        coll_data = []
+
+        print('Creating {} quantized thumbnails...'.format(len(filenames)))
+        for filename in filenames:
+            infile = self.path + filename
+            img = Image.open(infile)
+            img = img.resize(size)
+            img = np.asarray(img)
+            # img = quantize(img, n_colors)
+            img_data.append(img)
+
+        img_data = quantize(img_data, n_colors)
+        return np.array(img_data)
+
+
     def rename_files(self):
         filenames = os.listdir(self.path)
         temp_path = self.path[:-1] + '_/'
@@ -64,34 +81,3 @@ class getData(object):
 
         shutil.rmtree(self.path)
         os.rename(temp_path, self.path)
-
-
-    def make_data(self, size, n_colors):
-        filenames = os.listdir(self.path)
-        img_data = []
-        coll_data = []
-
-        print('Creating {} quantized thumbnails...'.format(len(filenames)))
-        for filename in filenames:
-            infile = self.path + filename
-            img = Image.open(infile)
-            img = img.resize(size)
-            img = np.asarray(img)
-            img = quantize(img, n_colors)
-            img_data.append(img)
-
-        return np.array(img_data)
-
-
-    def plot_image(self, data, n_colors):
-        data = data / 255
-        w, h, d = data.shape
-
-        fig = plt.figure(frameon=False)
-        fig.set_size_inches(1, 1)
-        ax = plt.Axes(fig, [0., 0., 1., 1.])
-        ax.set_axis_off()
-        fig.add_axes(ax)
-
-        ax.imshow(data, aspect='normal')
-        fig.savefig('test_{}.png'.format(n_colors), dpi=w)

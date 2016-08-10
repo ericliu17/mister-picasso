@@ -8,7 +8,7 @@ import random
 from PIL import Image
 
 
-class lstmModel(object):
+class LSTMModel(object):
 
     def __init__(self, step, data):
         self.n, self.w, self.h, self.d = data.shape
@@ -20,6 +20,29 @@ class lstmModel(object):
         self.palettes = []
         self.next_colors = []
         self.model = None
+
+
+    def lstm_model(self, diversities, iterations=50):
+        X, y = self.vectorize()
+        print('Build model...')
+        colors = len(self.colors)
+        self.model = Sequential()
+        self.model.add(LSTM(128, input_shape=(self.w, colors)))
+        self.model.add(Dense(colors))
+        self.model.add(Activation('relu'))
+
+        optimizer = RMSprop(lr=0.01)
+        self.model.compile(loss='mean_squared_error', optimizer=optimizer)
+
+        # train the model, output generated text after each iteration
+        for iteration in xrange(0, iterations):
+            print()
+            print('-' * 50)
+            print('Iteration', iteration + 1)
+            self.model.fit(X, y, batch_size=colors, nb_epoch=1)
+
+            if (iteration + 1) % 10 == 0:
+                self.generate(diversities, iteration + 1)
 
 
     def vectorize(self):
@@ -50,29 +73,6 @@ class lstmModel(object):
         return X, y
 
 
-    def nn_model(self, X, y, diversities, iterations=50):
-        print('Build model...')
-        colors = len(self.colors)
-        self.model = Sequential()
-        self.model.add(LSTM(colors, input_shape=(self.w, colors)))
-        self.model.add(Dense(colors))
-        self.model.add(Activation('softmax'))
-
-        optimizer = RMSprop(lr=0.01)
-        self.model.compile(loss='categorical_crossentropy',
-                           optimizer=optimizer)
-
-        # train the model, output generated text after each iteration
-        for iteration in xrange(0, iterations):
-            print()
-            print('-' * 50)
-            print('Iteration', iteration + 1)
-            self.model.fit(X, y, batch_size=colors, nb_epoch=1)
-
-            if (iteration + 1) % 10 == 0:
-                self.generate(diversities, iteration + 1)
-
-
     def generate(self, diversities, iteration):
         start_idx = random.randint(0, len(self.data) - self.w - 1)
 
@@ -84,9 +84,9 @@ class lstmModel(object):
             seed = self.data[start_idx : start_idx + self.w]
 
             for i in xrange(self.w * self.h):
-                line = (i + 1) % self.w
-                if line == 0:
-                    print('Saving row {} of {}'.format(i, self.h))
+                if (i + 1) % self.w == 0:
+                    line = (i + 1) / self.w
+                    print('Generating row {} of {}'.format(line, self.h))
 
                 x = np.zeros((1, self.w, len(self.colors)))
                 for j, color in enumerate(seed):
