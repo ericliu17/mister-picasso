@@ -55,16 +55,15 @@ class GetData(object):
         img_data = []
         coll_data = []
 
-        print('Creating {} quantized thumbnails...'.format(len(filenames)))
+        print('Creating {} thumbnails...'.format(len(filenames)))
         for filename in filenames:
             infile = self.path + filename
-            img = Image.open(infile)
+            # Convert to grayscale
+            img = Image.open(infile).convert('LA')
             img = img.resize(size)
             img = np.asarray(img)
-            # img = quantize(img, n_colors)
             img_data.append(img)
 
-        img_data = quantize(img_data, n_colors)
         return np.array(img_data)
 
 
