@@ -5,7 +5,7 @@ from rowwise_baseline import LSTMModel
 # from pixelwise_baseline import LSTMModel
 # from pixelwise_test import LSTMModel
 
-path = 'images/'
+path = '../images/'
 artists = ['pablo_picasso']
 url = 'https://en.wikipedia.org/wiki/'
 
@@ -21,4 +21,4 @@ img_data = data.make_data(size=(128, 128), n_colors=64)
 model = LSTMModel(step=3, data=img_data)
 # X, y = model.vectorize()
 diversities = [1.0]
-model.lstm_model(diversities, iterations=100)
+model.lstm_model(diversities, iterations=1, generations=1)

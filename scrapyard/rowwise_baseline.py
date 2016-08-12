@@ -20,15 +20,12 @@ class LSTMModel(object):
         self.model = None
 
 
-    def lstm_model(self, diversities, iterations=50):
+    def lstm_model(self, diversities, iterations=50, generations=10):
         X, y = self.vectorize()
         print('Build model...')
         self.model = Sequential()
         self.model.add(LSTM(128, input_shape=(None, X.shape[2]),
                             return_sequences=True))
-        self.model.add(Dropout(0.2))
-        self.model.add(LSTM(128, return_sequences=False))
-        self.model.add(Dropout(0.2))
         self.model.add(TimeDistributed(Dense(y.shape[2])))
         self.model.add(Activation('relu'))
 
@@ -40,9 +37,9 @@ class LSTMModel(object):
             print()
             print('-' * 50)
             print('Iteration', iteration + 1)
-            self.model.fit(X, y, batch_size=128, nb_epoch=1)
+            self.model.fit(X, y, batch_size=128, nb_epoch=10000)
 
-            if (iteration + 1) % 10 == 0:
+            if (iteration + 1) % generations == 0:
                 self.generate(diversities, iteration + 1)
 
 

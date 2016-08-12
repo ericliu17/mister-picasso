@@ -67,7 +67,18 @@ class GetData(object):
 
         # Quantize all images
         img_data = quantize(img_data, n_colors)
+        # self.save_img(img_data, 0)
         return np.array(img_data)
+
+
+    # for troubleshooting
+    def save_img(self, data, num):
+        n, w, h, d = data.shape
+        data = np.array(data[num]).astype(np.uint8)
+        data = data.reshape(w, h, d)
+        filename = self.path + 'thumbnail.png'
+        print('Saving thumbnail image as {}'.format(filename))
+        Image.fromarray(data).save(filename)
 
 
     def rename_files(self):
