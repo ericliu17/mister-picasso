@@ -9,12 +9,15 @@ class Evaluator(object):
         self.grads_values = None
         self.img_width = img_width
         self.img_height = img_height
+        self.f_outputs = self.set_f_outputs(combo_img, loss, grads)
+
+    def set_f_outputs(self, combo_img, loss, grads):
         outputs = [loss]
         if type(grads) in {list, tuple}:
             outputs += grads
         else:
             outputs.append(grads)
-        self.f_outputs = K.function([combo_img], outputs)
+        return K.function([combo_img], outputs)
 
     def loss(self, x):
         assert self.loss_value is None

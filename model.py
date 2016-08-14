@@ -5,7 +5,6 @@ import os
 
 
 def model(weights_path, input_tensor, img_width, img_height):
-
     layer_names = ['conv_1_1', 'conv_2_1', 'conv_3_1',
                    'conv_4_1', 'conv_4_2', 'conv_5_1']
 
