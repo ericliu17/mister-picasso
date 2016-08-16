@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block body %}
+    <div class="jumbotron">
+        <div class="container">
+          <h1>Mister Picasso</h1>
+          <p>
+            Have your portrait done by Mister Picasso
+          </p>
+        </div>
+    </div>
+
+
+    <div class="container">
+
+        <h3> Hello! I am Mister Picasso. </h3>
+        <p> I am here to paint your portrait in my signature style. </p>
+        <br></br>
+        <p>
+            To generate your painting, I begin by using a VGG-16 pre-trained convolutional neural network.
+        </p>
+        <br></br>
+        <p>
+            Using the high-level features of your image and the style image derived from this model, I calculate pixel-wise and patch-wise feature correlations between your image and the style image. These allow me to capture features like colors, shapes, and textures.
+        </p>
+        <br></br>
+        <p>
+            Pixel-wise and patch-wise feature correlations are captured by gram matrices and 2D spatial convolutions, respectively.
+        </p>
+        <br></br>
+        <p>
+            Browse some of my previous work <a href="/index">here</a>.
+        </p>
+    </div>
+
+{% endblock %}

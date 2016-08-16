@@ -1,0 +1,159 @@
+{% extends "base.html" %}
+{% block body %}
+    <div class="jumbotron">
+        <div class="container">
+            <h1>Mister Picasso</h1>
+            <p>Have your portrait done by Mister Picasso</p>
+        </div>
+    </div>
+
+
+    <div class="container">
+
+        <div class="row">
+            <div class="col-lg-2 col-md-4 col-xs-6 thumb">
+                <a data-toggle="modal" class="thumbnail" href="/zoom" data-target="#myModal">
+                    <img class="img-responsive" src={{ img_url }} alt="">
+                </a>
+            </div>
+            <div class="col-lg-2 col-md-4 col-xs-6 thumb">
+                <a data-toggle="modal" class="thumbnail" href="/zoom" data-target="#myModal">
+                    <img class="img-responsive" src={{ img_url }} alt="">
+                </a>
+            </div>
+            <div class="col-lg-2 col-md-4 col-xs-6 thumb">
+                <a data-toggle="modal" class="thumbnail" href="/zoom" data-target="#myModal">
+                    <img class="img-responsive" src={{ img_url }} alt="">
+                </a>
+            </div>
+            <div class="col-lg-2 col-md-4 col-xs-6 thumb">
+                <a data-toggle="modal" class="thumbnail" href="/zoom" data-target="#myModal">
+                    <img class="img-responsive" src={{ img_url }} alt="">
+                </a>
+            </div>
+            <div class="col-lg-2 col-md-4 col-xs-6 thumb">
+                <a data-toggle="modal" class="thumbnail" href="/zoom" data-target="#myModal">
+                    <img class="img-responsive" src={{ img_url }} alt="">
+                </a>
+            </div>
+            <div class="col-lg-2 col-md-4 col-xs-6 thumb">
+                <a data-toggle="modal" class="thumbnail" href="/zoom" data-target="#myModal">
+                    <img class="img-responsive" src={{ img_url }} alt="">
+                </a>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-2 col-md-4 col-xs-6 thumb">
+                <a data-toggle="modal" class="thumbnail" href="/zoom" data-target="#myModal">
+                    <img class="img-responsive" src={{ img_url }} alt="">
+                </a>
+            </div>
+            <div class="col-lg-2 col-md-4 col-xs-6 thumb">
+                <a data-toggle="modal" class="thumbnail" href="/zoom" data-target="#myModal">
+                    <img class="img-responsive" src={{ img_url }} alt="">
+                </a>
+            </div>
+            <div class="col-lg-2 col-md-4 col-xs-6 thumb">
+                <a data-toggle="modal" class="thumbnail" href="/zoom" data-target="#myModal">
+                    <img class="img-responsive" src={{ img_url }} alt="">
+                </a>
+            </div>
+            <div class="col-lg-2 col-md-4 col-xs-6 thumb">
+                <a data-toggle="modal" class="thumbnail" href="/zoom" data-target="#myModal">
+                    <img class="img-responsive" src={{ img_url }} alt="">
+                </a>
+            </div>
+            <div class="col-lg-2 col-md-4 col-xs-6 thumb">
+                <a data-toggle="modal" class="thumbnail" href="/zoom" data-target="#myModal">
+                    <img class="img-responsive" src={{ img_url }} alt="">
+                </a>
+            </div>
+            <div class="col-lg-2 col-md-4 col-xs-6 thumb">
+                <a data-toggle="modal" class="thumbnail" href="/zoom" data-target="#myModal">
+                    <img class="img-responsive" src={{ img_url }} alt="">
+                </a>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-2 col-md-4 col-xs-6 thumb">
+                <a data-toggle="modal" class="thumbnail" href="/zoom" data-target="#myModal">
+                    <img class="img-responsive" src={{ img_url }} alt="">
+                </a>
+            </div>
+            <div class="col-lg-2 col-md-4 col-xs-6 thumb">
+                <a data-toggle="modal" class="thumbnail" href="/zoom" data-target="#myModal">
+                    <img class="img-responsive" src={{ img_url }} alt="">
+                </a>
+            </div>
+            <div class="col-lg-2 col-md-4 col-xs-6 thumb">
+                <a data-toggle="modal" class="thumbnail" href="/zoom" data-target="#myModal">
+                    <img class="img-responsive" src={{ img_url }} alt="">
+                </a>
+            </div>
+            <div class="col-lg-2 col-md-4 col-xs-6 thumb">
+                <a data-toggle="modal" class="thumbnail" href="/zoom" data-target="#myModal">
+                    <img class="img-responsive" src={{ img_url }} alt="">
+                </a>
+            </div>
+            <div class="col-lg-2 col-md-4 col-xs-6 thumb">
+                <a data-toggle="modal" class="thumbnail" href="/zoom" data-target="#myModal">
+                    <img class="img-responsive" src={{ img_url }} alt="">
+                </a>
+            </div>
+            <div class="col-lg-2 col-md-4 col-xs-6 thumb">
+                <a data-toggle="modal" class="thumbnail" href="/zoom" data-target="#myModal">
+                    <img class="img-responsive" src={{ img_url }} alt="">
+                </a>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+      <div class="modal-dialog modal-auto">
+          <div class="modal-content">
+
+    </div><!-- /.modal-content -->
+
+
+    <script>
+        var path = "static/img/combo/";
+        var imgsArray = {{ img_url|safe }};
+
+        // Fisher-Yates (aka Knuth) Shuffle
+        function shuffle(array) {
+            var currentIndex = array.length, temporaryValue, randomIndex;
+
+            // While there remain elements to shuffle...
+            while (0 !== currentIndex) {
+
+                // Pick a remaining element...
+                randomIndex = Math.floor(Math.random() * currentIndex);
+                currentIndex -= 1;
+
+                // And swap it with the current element.
+                temporaryValue = array[currentIndex];
+                array[currentIndex] = array[randomIndex];
+                array[randomIndex] = temporaryValue;
+            }
+
+            return array;
+        }
+
+        function update() {
+            var randImg = imgsArray[Math.floor(Math.random() * imgsArray.length)];
+            var imgPath = path + randImg "static/img/combo/steve-urkel_ambroise-vollard.png"
+            row = Math.floor((Math.random() * 3) + 1);
+            img = Math.floor((Math.random() * 6) + 1);
+            $($(".row")[row].children[img].children[0].children[0]).attr("src", imgPath);
+        }
+
+        setInterval(function(){ update() }, 500);
+    </script>
+    </div>
+
+
+{% endblock %}

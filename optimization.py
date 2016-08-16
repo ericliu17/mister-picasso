@@ -1,9 +1,9 @@
 from __future__ import print_function
-import numpy as np
-from scipy.optimize import fmin_l_bfgs_b
 import time
-from img_processing import deprocess_image
+import numpy as np
 from scipy.misc import imsave
+from scipy.optimize import fmin_l_bfgs_b
+from img_processing import deprocess_image
 
 
 def optimizer(evaluator, img_width, img_height, result_prefix, iterations=11):
@@ -17,15 +17,16 @@ def optimizer(evaluator, img_width, img_height, result_prefix, iterations=11):
         print('Start of iteration', i + 1)
         start_time = time.time()
         # run scipy-based optimization (L-BFGS) over the pixels of the
-        # generated image so as to minimize the neural style loss
+        # generated image so as to minimize the neural loss
         x, min_val, info = fmin_l_bfgs_b(evaluator.loss, x.flatten(),
                                          fprime=evaluator.grads, maxfun=20)
         print('Current loss value:', min_val)
         # save current generated image
-        img = deprocess_image(x.copy().reshape((3, img_width, img_height)))
-        fname = result_prefix + '_at_iteration_{}.png'.format(i)
-        imsave(fname, img)
+        if i + 1 == iterations:
+            img = deprocess_image(x.copy().reshape((3, img_width, img_height)))
+            fname = result_prefix + '.png'
+            imsave(fname, img)
+            print('Image saved as', fname)
         end_time = time.time()
-        print('Image saved as', fname)
         print('Iteration {} completed in {}s'.format(i, end_time - start_time))
         print()

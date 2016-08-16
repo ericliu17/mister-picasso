@@ -4,9 +4,9 @@ import patches as p
 
 # weights of the different loss components
 total_variation_weight = 1.
-content_weight = 0.025
+content_weight = 0.2
 style_weight = 1.
-mrf_weight = 0.5
+spatial_weight = 0.02
 
 
 # compute the neural style loss
@@ -32,9 +32,9 @@ def calc_loss_grad(model, combo_img, img_width, img_height):
         layer_feats = outputs_dict[name]
         style_feats = layer_feats[1, :, :, :]
         combo_feats = layer_feats[2, :, :, :]
-        mrf = mrf_loss(style_feats, combo_feats)
+        spatial = spatial_loss(style_feats, combo_feats)
         sl = style_loss(style_feats, combo_feats, img_width, img_height)
-        loss += (mrf_weight / len(outputs_dict)) * mrf
+        loss += (spatial_weight / len(outputs_dict)) * spatial
         loss += (style_weight / len(outputs_dict)) * sl
 
     # single scalar loss
@@ -47,7 +47,7 @@ def calc_loss_grad(model, combo_img, img_width, img_height):
     return loss, grads
 
 
-def mrf_loss(style, combo, patch_size=3, patch_stride=1):
+def spatial_loss(style, combo, patch_size=3, patch_stride=1):
     # CNNMRF http://arxiv.org/pdf/1601.04589v1.pdf
     # extract patches from feature maps
     combo_patches, combo_patches_norm = p.make_patches(combo,
@@ -58,7 +58,7 @@ def mrf_loss(style, combo, patch_size=3, patch_stride=1):
                                                        patch_stride)
     # find best patches and calculate loss
     patch_ids = p.find_matches(combo_patches, combo_patches_norm,
-                                     style_patches / style_patches_norm)
+                               style_patches / style_patches_norm)
     best_style_patches = K.reshape(style_patches[patch_ids],
                                    K.shape(combo_patches))
     return K.sum(K.square(best_style_patches - combo_patches)) / \
