@@ -1,3 +1,7 @@
+'''
+From neural style transfer example with Keras.
+'''
+
 from __future__ import print_function
 import time
 import numpy as np
@@ -22,7 +26,7 @@ def optimizer(evaluator, img_width, img_height, result_prefix, iterations=11):
                                          fprime=evaluator.grads, maxfun=20)
         print('Current loss value:', min_val)
         # save current generated image
-        if i + 1 == iterations:
+        if i + 1 % iterations == 0:
             img = deprocess_image(x.copy().reshape((3, img_width, img_height)))
             fname = result_prefix + '.png'
             imsave(fname, img)

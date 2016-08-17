@@ -1,3 +1,7 @@
+'''
+From neural style transfer example with Keras.
+'''
+
 from scipy.misc import imread, imresize
 import numpy as np
 
@@ -10,8 +14,7 @@ def preprocess_image(image_path, img_width, img_height):
     img[:, :, 1] -= 116.779
     img[:, :, 2] -= 123.68
     img = img.transpose((2, 0, 1))
-    img = np.expand_dims(img, axis=0)
-    return img
+    return np.expand_dims(img, axis=0)
 
 
 # convert a tensor into a valid image
@@ -21,5 +24,4 @@ def deprocess_image(x):
     x[:, :, 1] += 116.779
     x[:, :, 2] += 123.68
     x = x[:, :, ::-1]
-    x = np.clip(x, 0, 255).astype('uint8')
-    return x
+    return np.clip(x, 0, 255).astype('uint8')

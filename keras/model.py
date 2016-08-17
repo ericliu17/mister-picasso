@@ -1,3 +1,7 @@
+'''
+From neural style transfer example with Keras.
+'''
+
 from keras.models import Sequential
 from keras.layers import Convolution2D, ZeroPadding2D, MaxPooling2D
 import h5py

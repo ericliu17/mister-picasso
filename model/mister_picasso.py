@@ -1,11 +1,12 @@
 '''
-Based on Neural style transfer example with Keras.
+Built on top of Neural style transfer example with Keras.
 # References
     - [A Neural Algorithm of Artistic Style](http://arxiv.org/abs/1508.06576)
 '''
 
 from __future__ import print_function
-import argparse
+import sys
+sys.path.insert(0, '../keras/')
 from keras import backend as K
 from img_processing import preprocess_image
 from model import model
@@ -15,19 +16,6 @@ from optimization import optimizer
 import os
 import shutil
 
-# parser = argparse.ArgumentParser(description='Neural style transfer with Keras.')
-# parser.add_argument('base_img_path', metavar='base', type=str,
-#                     help='Path to the image to transform.')
-# parser.add_argument('style_img_path', metavar='ref', type=str,
-#                     help='Path to the style reference image.')
-# parser.add_argument('result_prefix', metavar='res_prefix', type=str,
-#                     help='Prefix for the saved results.')
-#
-# args = parser.parse_args()
-# base_img_path = args.base_img_path
-# style_img_path = args.style_img_path
-# result_prefix = args.result_prefix
-# weights_path = 'vgg16_weights.h5'
 
 def run(weights_path, base_path, base_file, style_path, style_file, img_width, img_height):
     result_prefix = base_file[:-4] + '_' + style_file[:-4]
@@ -55,9 +43,9 @@ def run(weights_path, base_path, base_file, style_path, style_file, img_width, i
 
 
 if __name__ == '__main__':
-    base_path = 'app/static/img/base/'
-    style_path = 'app/static/img/style/'
-    weights_path = 'vgg16_weights.h5'
+    base_path = '../base/'
+    style_path = '../style/'
+    weights_path = '../vgg16_weights.h5'
     base_files = os.listdir(base_path)
     style_files = os.listdir(style_path)
 

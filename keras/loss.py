@@ -1,5 +1,12 @@
+'''
+From neural style transfer example with Keras,
+except for spatial loss.
+'''
+
 from keras import backend as K
-import patches as p
+import sys
+sys.path.insert(0, '../model/')
+from spatial import spatial_loss
 
 
 # weights of the different loss components
@@ -7,6 +14,7 @@ total_variation_weight = 1.
 content_weight = 0.2
 style_weight = 1.
 spatial_weight = 0.02
+last_layer = 'conv_4_2'
 
 
 # compute the neural style loss
@@ -21,13 +29,13 @@ def calc_loss_grad(model, combo_img, img_width, img_height):
 
     # content loss
     # use last non-fully-connected layer
-    layer_feats = outputs_dict['conv_4_2']
-    base_img_feats = layer_feats[0, :, :, :]
+    layer_feats = outputs_dict[last_layer]
+    base_feats = layer_feats[0, :, :, :]
     combo_feats = layer_feats[2, :, :, :]
-    cl = content_loss(base_img_feats, combo_feats)
+    cl = content_loss(base_feats, combo_feats)
     loss += content_weight * cl
 
-    # style loss
+    # style loss and spatial loss
     for name in outputs_dict:
         layer_feats = outputs_dict[name]
         style_feats = layer_feats[1, :, :, :]
@@ -45,24 +53,6 @@ def calc_loss_grad(model, combo_img, img_width, img_height):
     grads = K.gradients(loss, combo_img)
 
     return loss, grads
-
-
-def spatial_loss(style, combo, patch_size=3, patch_stride=1):
-    # CNNMRF http://arxiv.org/pdf/1601.04589v1.pdf
-    # extract patches from feature maps
-    combo_patches, combo_patches_norm = p.make_patches(combo,
-                                                       patch_size,
-                                                       patch_stride)
-    style_patches, style_patches_norm = p.make_patches(style,
-                                                       patch_size,
-                                                       patch_stride)
-    # find best patches and calculate loss
-    patch_ids = p.find_matches(combo_patches, combo_patches_norm,
-                               style_patches / style_patches_norm)
-    best_style_patches = K.reshape(style_patches[patch_ids],
-                                   K.shape(combo_patches))
-    return K.sum(K.square(best_style_patches - combo_patches)) / \
-           patch_size ** 2
 
 
 def gram_matrix(x):
