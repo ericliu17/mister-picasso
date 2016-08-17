@@ -1,7 +1,7 @@
 # Mister Picasso
 
 ## Summary
-Mister Picasso is a deep convolutional neural network that captures pixel and spatial level data to try and paint your portrait in the style of Picasso.
+Mister Picasso is a deep convolutional neural network that captures pixel and spatial level data to try and paint your portrait in the style of Picasso. It is based on the neural style transfer example from Keras.
 
 ## Repo Structure
 * app - files for hosting a webapp, a work in progress
