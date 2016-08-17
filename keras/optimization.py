@@ -10,7 +10,7 @@ from scipy.optimize import fmin_l_bfgs_b
 from img_processing import deprocess_image
 
 
-def optimizer(evaluator, img_width, img_height, result_prefix, iterations=11):
+def optimizer(evaluator, img_width, img_height, result_prefix, iterations=10):
     # initial state
     x = np.random.uniform(0, 255, (1, 3, img_width, img_height))
     x[0, 0, :, :] -= 103.939
@@ -26,7 +26,7 @@ def optimizer(evaluator, img_width, img_height, result_prefix, iterations=11):
                                          fprime=evaluator.grads, maxfun=20)
         print('Current loss value:', min_val)
         # save current generated image
-        if i + 1 % iterations == 0:
+        if i + 1 == iterations:
             img = deprocess_image(x.copy().reshape((3, img_width, img_height)))
             fname = result_prefix + '.png'
             imsave(fname, img)
