@@ -33,7 +33,7 @@ def make_patches(x, shape):
     patches = K.reshape(patches, (K.shape(x)[1],
                                   K.shape(patches)[0] / K.shape(x)[1],
                                   shape, shape))
-    patches = K.permute_dimensions(patches, (1, 0, 2, 3))
+    
     patches_norm = K.sqrt(K.sum(K.square(patches), axis=(1,2,3),
                                 keepdims=True))
 

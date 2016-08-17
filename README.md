@@ -5,6 +5,7 @@ Mister Picasso is a deep convolutional neural network that captures pixel and sp
 
 ## Repo Structure
 * app - files for hosting a webapp, a work in progress
+    * samples of generated images can be found in `app/static/img/combo/`
 * keras - code used from Keras' neural style transfer example, reorganized and a bit optimized
 * model
     * `mister_picasso.py` - script used to run model
