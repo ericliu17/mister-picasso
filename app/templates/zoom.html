@@ -1,27 +1,51 @@
-
-{% block body %}
-
 <div>
+<table align="center">
+    <tr>
+        <td class="base">
+            <img class="img-responsive zoom" src="" alt="">
+            <center> You </center>
+        </td>
+        <td class="style">
+            <img class="img-responsive zoom" src="" alt="">
+            <center> In the style of </center>
+        </td>
+        <td class="combo">
+            <img class="img-responsive zoom" src="" alt="">
+            <center> Picasso's painting </center>
+        </td>
+    </tr>
+</table>
 
-        <table align="center">
-            <tr>
-                <td>
-                    <img class="img-responsive" src={{base_img_url}} alt="">
-                    <center> You </center>
-                </td>
-                <td>
-                    <img class="img-responsive" src={{style_img_url}} alt="">
-                    <center> In the style of </center>
-                </td>
-                <td>
-                    <img class="img-responsive" src={{img_url}} alt="">
-                    <center> My painting </center>
-                </td>
-            </tr>
-        </table>
+<script>
+base_path = "../static/img/base/";
+style_path = "../static/img/style/";
+combo_path = "../static/img/combo/";
 
+function init() {
+    img_tags = document.getElementsByClassName("zoom");
+    base_img_tag = img_tags[0];
+    style_img_tag = img_tags[1];
+    combo_img_tag = img_tags[2];
+    // parse object into dictionary object, get src
+    url = JSON.parse(window.localStorage.getItem("imginfo"));
+    delete window.localStorage["imginfo"];
+    // split http address on "/"
+    parts = url.split("/");
+    // take filename, remove .png, split "_" for base and style image names
+    combo_img = parts[parts.length - 1];
+    files = combo_img.slice(0, -4).split("_");
+    base_img = files[0] + ".jpg";
+    style_img = files[1] + ".jpg";
+    base_img_tag.setAttribute("src", base_path + base_img);
+    style_img_tag.setAttribute("src", style_path + style_img);
+    combo_img_tag.setAttribute("src", combo_path + combo_img);
+}
+
+init();
+</script>
+
+<!-- jQuery -->
+<script src="../static/js/jquery.js"></script>
+<!-- Bootstrap Core JavaScript -->
+<script src="../static/js/bootstrap.min.js"></script>
 </div>
-
-
-
-{% endblock %}

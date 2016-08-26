@@ -1,9 +1,6 @@
 from flask import url_for, render_template
 from app import app
 import os
-from random import choice
-global random_combo_img
-import json
 
 
 base_imgs = os.listdir(os.path.join(app.static_folder, 'img/base'))
@@ -14,32 +11,12 @@ combo_imgs = os.listdir(os.path.join(app.static_folder, 'img/combo'))
 @app.route('/')
 @app.route('/index')
 def index():
-    global random_combo_img
-    random_combo_img = choice(combo_imgs)
-    img_url = url_for('static',
-                      filename=os.path.join('img/combo', random_combo_img))
-    return render_template('index.html', title='Home', img_url=img_url)
+    return render_template('index.html', title='Home', combo_imgs=combo_imgs)
 
 
 @app.route('/zoom')
 def zoom():
-    global random_combo_img
-    imgs = random_combo_img[:-4].split('_')
-    base_img = imgs[0] + '.jpg'
-    style_img = imgs[1] + '.jpg'
-    base_img_url = url_for('static',
-                           filename=os.path.join('img/base', base_img))
-    style_img_url = url_for('static',
-                           filename=os.path.join('img/style', style_img))
-    img_url = url_for('static',
-                      filename=os.path.join('img/combo', random_combo_img))
-    # base_img_url = base_img
-    # style_img_url = style_img
-    # img_url = combo_imgs
-    return render_template('zoom.html', title='Zoomed',
-                           base_img_url=base_img_url,
-                           style_img_url=style_img_url,
-                           img_url=img_url)
+    return render_template('zoom.html')
 
 
 @app.route('/about')
