@@ -5,8 +5,6 @@ Built on top of Neural style transfer example with Keras.
 '''
 
 from __future__ import print_function
-import sys
-sys.path.insert(0, '../keras/')
 from keras import backend as K
 from img_processing import preprocess_image
 from model import model
@@ -39,25 +37,4 @@ def main(weights_path, base_path, base_file, style_path, style_file, img_width, 
     nn = model(weights_path, input_tensor, img_width, img_height)
     loss, grads = calc_loss_grad(nn, combo_img, img_width, img_height)
     evaluate = Evaluator(loss, grads, combo_img, img_width, img_height)
-    optimizer(evaluate, img_width, img_height, result_prefix)
-
-
-if __name__ == '__main__':
-    base_path = '../base/'
-    style_path = '../style/'
-    weights_path = '../vgg16_weights.h5'
-    base_files = os.listdir(base_path)
-    style_files = os.listdir(style_path)
-
-    # dimensions of the generated picture
-    img_width = 128
-    img_height = 128
-    assert img_height == img_width, \
-           'Due to the use of the Gram matrix, width and height must match.'
-
-    for base_file in base_files:
-        for style_file in style_files:
-            main(weights_path,
-                base_path, base_file,
-                style_path, style_file,
-                img_width, img_height)
+    optimizer(evaluate, img_width, img_height, result_prefix, iterations=1)

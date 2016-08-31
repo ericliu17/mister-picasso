@@ -1,12 +1,5 @@
 {% extends "base.html" %}
 {% block body %}
-<!-- <div class="jumbotron">
-    <div class="container">
-        <h1>Mister Picasso</h1>
-        <p>Have your portrait done by Mister Picasso</p>
-    </div>
-</div> -->
-
 
 <div class="container">
 
@@ -128,29 +121,16 @@
 </div>
 
 <script>
-function init() {
-    imgs = document.getElementsByClassName("img-responsive");
-    for (i = 0; i < imgs.length; i++) {
-        imgs[i].addEventListener("click", sendimg, false);
-    }
-}
-
-function sendimg(e) {
-    var a = e.target;
-    window.localStorage.setItem("imginfo", JSON.stringify(a.src));
-}
-
-window.addEventListener("load", init, false)
-
 path = "../static/img/combo/";
 img_arr = {{ combo_imgs|tojson }};
 rows_arr = [0, 1, 2, 3];
 cells_arr = [0, 1, 2, 3, 4, 5];
+grid_size = rows_arr.length * cells_arr.length;
 img_urls = shuffle(img_arr);
 rows_cells = shuffle(combination(rows_arr, cells_arr));
 i = 0;
 
-// dynamically add img element
+// dynamically add random, non-repeating img element
 function update() {
     img_tag = $(".row")[rows_cells[i][0]].children[rows_cells[i][1]].children[0];
 
@@ -160,16 +140,25 @@ function update() {
     } else {
         var img = new Image();
         img.setAttribute("class", "img-responsive");
+        img.setAttribute("id", "combo");
         img.src = path + img_urls[i];
         img_tag.appendChild(img);
         img_tag.children[0].addEventListener("click", sendimg, false);
+        $("#combo").fadeIn()
+        // img_tag.children[0]
     }
     i++;
-    if (i == 24) {
+    if (i == grid_size) {
         i = 0;
         img_urls = shuffle(img_arr);
         rows_cells = shuffle(combination(rows_arr, cells_arr));
     }
+}
+
+// send img url to zoom.html on click
+function sendimg(e) {
+    var a = e.target;
+    window.localStorage.setItem("imginfo", JSON.stringify(a.src));
 }
 
 // shuffle array such that elements are randomized and not selected twice
@@ -204,7 +193,7 @@ function combination(array1, array2) {
     return combos;
 }
 
-setInterval(function(){ update(img_urls, rows_cells, i) }, 500);
+setInterval(function(){ update() }, 500);
 </script>
 </div><!-- /.container -->
 

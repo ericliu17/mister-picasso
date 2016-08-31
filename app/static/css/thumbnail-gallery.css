@@ -8,14 +8,41 @@ body {
     padding-top: 75px; /* Required padding for .navbar-fixed-top. Change if height of navigation changes. */
 }
 
-.navbar-nav {
-    float:right;
+.navbar.navbar-inverse.navbar-fixed-top {
+    background-color: white;
+    border: none;
 }
+
+.navbar-brand {
+    font-size: 200%;
+    padding-top: 2%;
+}
+
+.navbar .container > a:hover {
+    color: black;
+}
+
+/* Right side of navbar */
+.navbar .navbar-nav > li > a {
+    font-size: 125%;
+    display: inline;
+}
+
+.navbar .navbar-nav > li > a:hover {
+    color: black;
+}
+
+.navbar-nav {
+    float: right;
+    display: inline-block;
+    padding-top: 2%;
+}
+
 
 .thumb {
     margin: 0px;
-    padding-right:0px;
-    padding-left:0px;
+    padding-right: 0px;
+    padding-left: 0px;
 }
 
 .thumbnail {
@@ -35,8 +62,12 @@ body {
     width: 128px;
 }
 
+.selected {
+    box-shadow: 0px 12px 22px 1px green;
+}
+
 footer {
-    float:right;
+    float:left;
     bottom:0px;
-    padding-right:10px;
+    padding-top:5px;
 }

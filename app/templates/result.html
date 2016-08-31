@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% block body %}
+
+
+<div class="container">
+
+    <!-- Page Heading -->
+    <div class="row">
+        <div class="col-lg-12">
+            <h1 class="page-header">Your generated portrait</h1>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-2 col-md-4 col-xs-6 thumb">
+            <img class="img-responsive zoom" src={{base_img_url}} alt="">
+            <p> You </p>
+        </div>
+
+        <div class="col-lg-2 col-md-4 col-xs-6 thumb">
+            <img class="img-responsive zoom" src="" alt="">
+            <p> In your chosen style </p>
+        </div>
+
+        <div class="col-lg-2 col-md-4 col-xs-6 thumb">
+            <img class="img-responsive zoom" src="" alt="">
+            <p> Voila! </p>
+        </div>
+    </div>
+
+</div>
+
+<script>
+path = "../static/img/style/";
+img_tag = $(".img-responsive");
+
+// get selected image url from submit.html
+url = JSON.parse(window.localStorage.getItem("imginfo"));
+delete window.localStorage["imginfo"];
+// split http address on "/"
+parts = url.split("/");
+// get style image name
+style_img = parts[parts.length - 1];
+
+img_tag[1].setAttribute("src", path + style_img)
+</script>
+
+{% endblock %}

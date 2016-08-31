@@ -1,0 +1,108 @@
+{% extends "base.html" %}
+{% block body %}
+
+<div class="container">
+
+<!-- Page Heading -->
+<div class="row">
+    <div class="col-lg-6">
+        <h1 class="page-header" style="float:left;">Pick a painting</h1>
+    </div>
+    <div class="col-lg-6">
+        <h1 class="page-header">Submit your picture</h1>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-2 col-md-4 col-xs-6 thumb">
+        <a data-toggle="modal" class="thumbnail" href="">
+            <img class="img-responsive zoom" src="">
+        </a>
+    </div>
+    <div class="col-lg-2 col-md-4 col-xs-6 thumb">
+        <a data-toggle="modal" class="thumbnail" href="">
+            <img class="img-responsive zoom" src="">
+        </a>
+    </div>
+    <div class="col-lg-2 col-md-4 col-xs-6 thumb">
+        <a data-toggle="modal" class="thumbnail" href="">
+            <img class="img-responsive zoom" src="">
+        </a>
+    </div>
+
+    <div class="col-lg-6">
+    <form action="/generate" method="POST" enctype="multipart/form-data" id="upload-form">
+        <input type="file" name="imagefile" id="imagefile"/>
+        <br>
+        <input type = "submit"/>
+    </form>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-2 col-md-4 col-xs-6 thumb">
+        <a data-toggle="modal" class="thumbnail" href="">
+            <img class="img-responsive zoom" src="">
+        </a>
+    </div>
+    <div class="col-lg-2 col-md-4 col-xs-6 thumb">
+        <a data-toggle="modal" class="thumbnail" href="">
+            <img class="img-responsive zoom" src="">
+        </a>
+    </div>
+    <div class="col-lg-2 col-md-4 col-xs-6 thumb">
+        <a data-toggle="modal" class="thumbnail" href="">
+            <img class="img-responsive zoom" src="">
+        </a>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-2 col-md-4 col-xs-6 thumb">
+        <a data-toggle="modal" class="thumbnail" href="">
+            <img class="img-responsive zoom" src="">
+        </a>
+    </div>
+    <div class="col-lg-2 col-md-4 col-xs-6 thumb">
+        <a data-toggle="modal" class="thumbnail" href="">
+            <img class="img-responsive zoom" src="">
+        </a>
+    </div>
+    <div class="col-lg-2 col-md-4 col-xs-6 thumb">
+        <a data-toggle="modal" class="thumbnail" href="">
+            <img class="img-responsive zoom" src="">
+        </a>
+    </div>
+</div>
+
+<script>
+path = "../static/img/style/";
+img_arr = {{ style_imgs|tojson }};
+img_tag = $(".img-responsive");
+
+// highlight selected style image
+img_tag.click( function() {
+   $('.selected').removeClass('selected');
+   $(this).addClass('selected');
+});
+
+// add img element
+function update() {
+    for (var i = 0; i < img_arr.length; i++) {
+        idx = Math.floor(i / 3);
+        img_tag[i].setAttribute("src", path + img_arr[i]);
+        img_tag[i].addEventListener("click", sendimg, false);
+    }
+}
+
+// send style image src
+function sendimg(e) {
+    var a = e.target;
+    window.localStorage.setItem("imginfo", JSON.stringify(a.src));
+}
+
+update();
+</script>
+</div><!-- /.container -->
+
+{% endblock %}
