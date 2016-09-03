@@ -6,32 +6,26 @@
 <!-- Page Heading -->
 <div class="row">
     <div class="col-lg-6">
-        <h1 class="page-header" style="float:left;">Pick a painting</h1>
+        <h3 class="page-header">Pick a painting</h3>
     </div>
     <div class="col-lg-6">
-        <h1 class="page-header">Submit your picture</h1>
+        <h3 class="page-header">Submit your picture</h3>
     </div>
 </div>
 
 <div class="row">
     <div class="col-lg-2 col-md-4 col-xs-6 thumb">
-        <a data-toggle="modal" class="thumbnail" href="">
-            <img class="img-responsive zoom" src="">
-        </a>
+        <input class="img-responsive zoom" type=image src="">
     </div>
     <div class="col-lg-2 col-md-4 col-xs-6 thumb">
-        <a data-toggle="modal" class="thumbnail" href="">
-            <img class="img-responsive zoom" src="">
-        </a>
+        <input class="img-responsive zoom" type=image src="">
     </div>
     <div class="col-lg-2 col-md-4 col-xs-6 thumb">
-        <a data-toggle="modal" class="thumbnail" href="">
-            <img class="img-responsive zoom" src="">
-        </a>
+        <input class="img-responsive zoom" type=image src="">
     </div>
 
     <div class="col-lg-6">
-    <form action="/generate" method="POST" enctype="multipart/form-data" id="upload-form">
+    <form action="/result" method="POST" enctype="multipart/form-data" id="upload-form">
         <input type="file" name="imagefile" id="imagefile"/>
         <br>
         <input type = "submit"/>
@@ -41,42 +35,30 @@
 
 <div class="row">
     <div class="col-lg-2 col-md-4 col-xs-6 thumb">
-        <a data-toggle="modal" class="thumbnail" href="">
-            <img class="img-responsive zoom" src="">
-        </a>
+        <input class="img-responsive zoom" type=image src="">
     </div>
     <div class="col-lg-2 col-md-4 col-xs-6 thumb">
-        <a data-toggle="modal" class="thumbnail" href="">
-            <img class="img-responsive zoom" src="">
-        </a>
+        <input class="img-responsive zoom" type=image src="">
     </div>
     <div class="col-lg-2 col-md-4 col-xs-6 thumb">
-        <a data-toggle="modal" class="thumbnail" href="">
-            <img class="img-responsive zoom" src="">
-        </a>
+        <input class="img-responsive zoom" type=image src="">
     </div>
 </div>
 
 <div class="row">
     <div class="col-lg-2 col-md-4 col-xs-6 thumb">
-        <a data-toggle="modal" class="thumbnail" href="">
-            <img class="img-responsive zoom" src="">
-        </a>
+        <input class="img-responsive zoom" type=image src="">
     </div>
     <div class="col-lg-2 col-md-4 col-xs-6 thumb">
-        <a data-toggle="modal" class="thumbnail" href="">
-            <img class="img-responsive zoom" src="">
-        </a>
+        <input class="img-responsive zoom" type=image src="">
     </div>
     <div class="col-lg-2 col-md-4 col-xs-6 thumb">
-        <a data-toggle="modal" class="thumbnail" href="">
-            <img class="img-responsive zoom" src="">
-        </a>
+        <input class="img-responsive zoom" type="image" src="">
     </div>
 </div>
 
 <script>
-path = "../static/img/style/";
+style_path = "static/img/style/";
 img_arr = {{ style_imgs|tojson }};
 img_tag = $(".img-responsive");
 
@@ -90,7 +72,7 @@ img_tag.click( function() {
 function update() {
     for (var i = 0; i < img_arr.length; i++) {
         idx = Math.floor(i / 3);
-        img_tag[i].setAttribute("src", path + img_arr[i]);
+        img_tag[i].setAttribute("src", style_path + img_arr[i]);
         img_tag[i].addEventListener("click", sendimg, false);
     }
 }

@@ -121,7 +121,7 @@
 </div>
 
 <script>
-path = "../static/img/combo/";
+combo_path = "static/img/combo/";
 img_arr = {{ combo_imgs|tojson }};
 rows_arr = [0, 1, 2, 3];
 cells_arr = [0, 1, 2, 3, 4, 5];
@@ -136,12 +136,12 @@ function update() {
 
     if (img_tag.children.length > 0) {
         first_img = img_tag.children[0];
-        first_img.setAttribute("src", path + img_urls[i]);
+        first_img.setAttribute("src", combo_path + img_urls[i]);
     } else {
         var img = new Image();
         img.setAttribute("class", "img-responsive");
         img.setAttribute("id", "combo");
-        img.src = path + img_urls[i];
+        img.src = combo_path + img_urls[i];
         img_tag.appendChild(img);
         img_tag.children[0].addEventListener("click", sendimg, false);
         $("#combo").fadeIn()

@@ -8,19 +8,11 @@ from app import views
 # Path to the upload directory
 BASE_UPLOAD_FOLDER = os.path.join(app.static_folder, 'uploads/base')
 app.config['BASE_UPLOAD_FOLDER'] = BASE_UPLOAD_FOLDER
-COMBO_UPLOAD_FOLDER = os.path.join(app.static_folder, 'uploads/combo')
-app.config['COMBO_UPLOAD_FOLDER'] = COMBO_UPLOAD_FOLDER
 
 # Accepted extensions
 app.config['ALLOWED_EXTENSIONS'] = set(['png', 'jpg', 'gif'])
 
-# Sample HTTP error handling
-@app.errorhandler(404)
-def not_found(error):
-    return render_template('404.html'), 404
-
-# Import a module / component using its blueprint handler variable (mod_auth)
-# from app.mod_auth.controllers import mod_auth as auth_module
-
-# Register blueprint(s)
-app.register_blueprint(views.mod_generate)
+# # Sample HTTP error handling
+# @app.errorhandler(404)
+# def not_found(error):
+#     return render_template('404.html'), 404

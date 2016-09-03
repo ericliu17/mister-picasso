@@ -18,7 +18,7 @@
         </div>
 
         <div class="col-lg-2 col-md-4 col-xs-6 thumb">
-            <img class="img-responsive zoom" src="" alt="">
+            <img class="img-responsive zoom" src="{{style_img_url}}" alt="">
             <p> In your chosen style </p>
         </div>
 
@@ -31,7 +31,9 @@
 </div>
 
 <script>
-path = "../static/img/style/";
+base_path = "static/img/base/";
+style_path = "static/img/style/";
+upload_combo_path = "static/uploads/combo/"
 img_tag = $(".img-responsive");
 
 // get selected image url from submit.html
@@ -42,7 +44,20 @@ parts = url.split("/");
 // get style image name
 style_img = parts[parts.length - 1];
 
-img_tag[1].setAttribute("src", path + style_img)
+img_tag[1].setAttribute("src", style_path + style_img);
+
+function sendimg(base, style) {
+    var base_img = base.src.split("/");
+    var style_img = style.src.split("/");
+    base_img = base_img[base_img.length - 1];
+    style_img = style_img[style_img.length - 1];
+    $.getJSON("/generate", { base_img: base_img, style_img: style_img }
+    ).done(function (combo_img) {
+        img_tag[2].setAttribute("src", upload_combo_path + combo_img);
+    });
+}
+
+sendimg(img_tag[0], img_tag[1]);
 </script>
 
 {% endblock %}
