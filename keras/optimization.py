@@ -32,5 +32,5 @@ def optimizer(evaluator, img_width, img_height, result_prefix, iterations=10):
             imsave(fname, img)
             print('Image saved as', fname)
         end_time = time.time()
-        print('Iteration {} completed in {}s'.format(i, end_time - start_time))
+        print('Iteration {} completed in {}s'.format(i + 1, end_time - start_time))
         print()

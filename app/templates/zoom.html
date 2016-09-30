@@ -3,14 +3,23 @@
     <tr>
         <td class="base">
             <img class="img-responsive zoom" src="">
-            <center> You </center>
         </td>
         <td class="style">
             <img class="img-responsive zoom" src="">
-            <center> In the chosen style </center>
         </td>
         <td class="combo">
             <img class="img-responsive zoom" src="">
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <center class="base_person"></center>
+        </td>
+        <td>
+            <center class="style_name"></center>
+            <center class="style_artist"></center>
+        </td>
+        <td>
             <center> Voila! </center>
         </td>
     </tr>
@@ -23,6 +32,7 @@ combo_path = "static/img/combo/";
 
 // get selected image url from index.html
 function init() {
+    // get img tags
     img_tags = document.getElementsByClassName("zoom");
     base_img_tag = img_tags[0];
     style_img_tag = img_tags[1];
@@ -32,14 +42,24 @@ function init() {
     delete window.localStorage["imginfo"];
     // split http address on "/"
     parts = url.split("/");
-    // take filename, remove .png, split "_" for base and style image names
+    // take filename, remove .png, split on "_" for base and style image names
     combo_img = parts[parts.length - 1];
     files = combo_img.slice(0, -4).split("_");
     base_img = files[0] + ".jpg";
     style_img = files[1] + ".jpg";
+    // set img src
     base_img_tag.setAttribute("src", base_path + base_img);
     style_img_tag.setAttribute("src", style_path + style_img);
     combo_img_tag.setAttribute("src", combo_path + combo_img);
+    //set base img name
+    person = base_img.slice(0, base_img.length - 4).replace(/-/g, " ");
+    $(".base_person").text(person);
+    //set style img name
+    split = style_img.indexOf("by");
+    name = style_img.slice(0, split - 1).replace(/-/g, " ");
+    artist = style_img.slice(split, style_img.length - 4).replace(/-/g, " ");
+    $(".style_name").text("In the style of " + name);
+    $(".style_artist").text(artist);
 }
 
 init();

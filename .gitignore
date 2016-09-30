@@ -5,10 +5,8 @@ config.py
 aws.txt
 
 # images
-images/
-test_color_quantization/
-output/
-slides/
+*.jpg
+*.png
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

@@ -133,19 +133,17 @@ i = 0;
 // dynamically add random, non-repeating img element
 function update() {
     img_tag = $(".row")[rows_cells[i][0]].children[rows_cells[i][1]].children[0];
+    first_img = img_tag.children[0];
 
     if (img_tag.children.length > 0) {
-        first_img = img_tag.children[0];
         first_img.setAttribute("src", combo_path + img_urls[i]);
     } else {
         var img = new Image();
         img.setAttribute("class", "img-responsive");
         img.setAttribute("id", "combo");
-        img.src = combo_path + img_urls[i];
+        img.setAttribute("src", combo_path + img_urls[i]);
         img_tag.appendChild(img);
         img_tag.children[0].addEventListener("click", sendimg, false);
-        $("#combo").fadeIn()
-        // img_tag.children[0]
     }
     i++;
     if (i == grid_size) {

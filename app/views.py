@@ -1,15 +1,16 @@
-from flask import render_template, request, redirect, flash
+from flask import render_template, request, redirect, flash, jsonify
 from werkzeug import secure_filename
 from app import app
 import os
 import model.mister_picasso as mp
 
 
-base_path = os.path.join(app.static_folder, 'img/base/')
 style_path = os.path.join(app.static_folder, 'img/style/')
 combo_path = os.path.join(app.static_folder, 'img/combo/')
 upload_base_path = 'static/uploads/base/'
 upload_combo_path = 'static/uploads/combo/'
+model_base_path = os.path.join(app.static_folder, 'uploads/base/')
+model_combo_path = os.path.join(app.static_folder, 'uploads/combo/')
 
 
 @app.route('/')
@@ -52,9 +53,7 @@ def result():
         # Check if the file is one of the allowed types/extensions
         if base_img and allowed_file(base_img.filename):
             base_file = secure_filename(base_img.filename)
-            upload_path = os.path.join(app.config['BASE_UPLOAD_FOLDER'],
-                                       base_file)
-            base_img.save(upload_path)
+            base_img.save(model_base_path + base_file)
 
         base_img_url = upload_base_path + base_file
         return render_template('result.html', base_img_url=base_img_url)
@@ -67,15 +66,20 @@ def generate():
     img_width = 128
     img_height = 128
 
-    base_file = request.args.get('base_img')
-    style_file = request.args.get('style_img')
-    print "Base file:", base_file
-    print "Style file:", style_file
+    base_img = request.args.get('base_img')
+    style_img = request.args.get('style_img')
+    print 'Base file:', base_img
+    print 'Style file:', style_img
 
-    # mp.main(weights_path, base_path, base_file, style_path, style_file,
-        #  img_width, img_height)
+    combo_img_url = mp.main(weights_path,
+                            model_base_path, base_img,
+                            style_path, style_img,
+                            model_combo_path,
+                            img_width, img_height,
+                            iterations=10)
 
-    return render_template('result.html', combo_img_url=combo_img_url)
+    combo_img = combo_img_url.split("/")[-1]
+    return jsonify(url=upload_combo_path + combo_img)
 
 
 def allowed_file(filename):

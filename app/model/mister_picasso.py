@@ -15,7 +15,8 @@ import os
 import shutil
 
 
-def main(weights_path, base_path, base_file, style_path, style_file, img_width, img_height):
+def main(weights_path, base_path, base_file, style_path, style_file,
+         combo_path, img_width, img_height, iterations):
     result_prefix = base_file[:-4] + '_' + style_file[:-4]
     base_img_path = base_path + base_file
     style_img_path = style_path + style_file
@@ -37,4 +38,5 @@ def main(weights_path, base_path, base_file, style_path, style_file, img_width, 
     nn = model(weights_path, input_tensor, img_width, img_height)
     loss, grads = calc_loss_grad(nn, combo_img, img_width, img_height)
     evaluate = Evaluator(loss, grads, combo_img, img_width, img_height)
-    optimizer(evaluate, img_width, img_height, result_prefix, iterations=1)
+    return optimizer(evaluate, img_width, img_height, combo_path,
+                     result_prefix, iterations=iterations)

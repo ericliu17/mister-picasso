@@ -10,7 +10,8 @@ from scipy.optimize import fmin_l_bfgs_b
 from img_processing import deprocess_image
 
 
-def optimizer(evaluator, img_width, img_height, result_prefix, iterations=10):
+def optimizer(evaluator, img_width, img_height, path, result_prefix,
+              iterations=10):
     # initial state
     x = np.random.uniform(0, 255, (1, 3, img_width, img_height))
     x[0, 0, :, :] -= 103.939
@@ -28,9 +29,11 @@ def optimizer(evaluator, img_width, img_height, result_prefix, iterations=10):
         # save current generated image
         if i + 1 == iterations:
             img = deprocess_image(x.copy().reshape((3, img_width, img_height)))
-            fname = result_prefix + '.png'
+            fname = '{}_{}.png'.format(path + result_prefix, i + 1)
             imsave(fname, img)
             print('Image saved as', fname)
         end_time = time.time()
-        print('Iteration {} completed in {}s'.format(i, end_time - start_time))
+        print('Iteration {} completed in {}s'.format(i + 1, end_time - start_time))
         print()
+
+    return fname

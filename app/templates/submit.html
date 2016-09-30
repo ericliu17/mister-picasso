@@ -15,13 +15,13 @@
 
 <div class="row">
     <div class="col-lg-2 col-md-4 col-xs-6 thumb">
-        <input class="img-responsive zoom" type=image src="">
+        <input class="img-responsive select" type=image src="">
     </div>
     <div class="col-lg-2 col-md-4 col-xs-6 thumb">
-        <input class="img-responsive zoom" type=image src="">
+        <input class="img-responsive select" type=image src="">
     </div>
     <div class="col-lg-2 col-md-4 col-xs-6 thumb">
-        <input class="img-responsive zoom" type=image src="">
+        <input class="img-responsive select" type=image src="">
     </div>
 
     <div class="col-lg-6">
@@ -35,25 +35,25 @@
 
 <div class="row">
     <div class="col-lg-2 col-md-4 col-xs-6 thumb">
-        <input class="img-responsive zoom" type=image src="">
+        <input class="img-responsive select" type=image src="">
     </div>
     <div class="col-lg-2 col-md-4 col-xs-6 thumb">
-        <input class="img-responsive zoom" type=image src="">
+        <input class="img-responsive select" type=image src="">
     </div>
     <div class="col-lg-2 col-md-4 col-xs-6 thumb">
-        <input class="img-responsive zoom" type=image src="">
+        <input class="img-responsive select" type=image src="">
     </div>
 </div>
 
 <div class="row">
     <div class="col-lg-2 col-md-4 col-xs-6 thumb">
-        <input class="img-responsive zoom" type=image src="">
+        <input class="img-responsive select" type=image src="">
     </div>
     <div class="col-lg-2 col-md-4 col-xs-6 thumb">
-        <input class="img-responsive zoom" type=image src="">
+        <input class="img-responsive select" type=image src="">
     </div>
     <div class="col-lg-2 col-md-4 col-xs-6 thumb">
-        <input class="img-responsive zoom" type="image" src="">
+        <input class="img-responsive select" type="image" src="">
     </div>
 </div>
 
@@ -71,7 +71,6 @@ img_tag.click( function() {
 // add img element
 function update() {
     for (var i = 0; i < img_arr.length; i++) {
-        idx = Math.floor(i / 3);
         img_tag[i].setAttribute("src", style_path + img_arr[i]);
         img_tag[i].addEventListener("click", sendimg, false);
     }

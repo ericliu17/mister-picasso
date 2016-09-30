@@ -11,53 +11,94 @@
         </div>
     </div>
 
-    <div class="row">
-        <div class="col-lg-2 col-md-4 col-xs-6 thumb">
-            <img class="img-responsive zoom" src={{base_img_url}} alt="">
-            <p> You </p>
-        </div>
+    <table>
+        <tr>
+            <td class="base">
+                <img class="img-responsive zoom" src={{base_img_url}}>
+            </td>
+            <td class="style">
+                <img class="img-responsive zoom" src="">
+            </td>
+            <td class="combo">
+                <img class="img-responsive zoom" src="">
 
-        <div class="col-lg-2 col-md-4 col-xs-6 thumb">
-            <img class="img-responsive zoom" src="{{style_img_url}}" alt="">
-            <p> In your chosen style </p>
-        </div>
-
-        <div class="col-lg-2 col-md-4 col-xs-6 thumb">
-            <img class="img-responsive zoom" src="" alt="">
-            <p> Voila! </p>
-        </div>
-    </div>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <center class="base_person">You</center>
+            </td>
+            <td>
+                <center class="style_name"></center>
+                <center class="style_artist"></center>
+            </td>
+            <td class="voila">
+                <center>Working.</center>
+            </td>
+        </tr>
+    </table>
 
 </div>
 
 <script>
-base_path = "static/img/base/";
 style_path = "static/img/style/";
-upload_combo_path = "static/uploads/combo/"
 img_tag = $(".img-responsive");
+dots = "Working..";
+elements = $(".voila");
 
 // get selected image url from submit.html
 url = JSON.parse(window.localStorage.getItem("imginfo"));
 delete window.localStorage["imginfo"];
 // split http address on "/"
-parts = url.split("/");
+style_url = url.split("/");
 // get style image name
-style_img = parts[parts.length - 1];
+style_img = style_url[style_url.length - 1];
 
 img_tag[1].setAttribute("src", style_path + style_img);
 
-function sendimg(base, style) {
-    var base_img = base.src.split("/");
-    var style_img = style.src.split("/");
+function generate_img(base, style) {
+    // get base image name
+    base_img = base.src.split("/");
     base_img = base_img[base_img.length - 1];
-    style_img = style_img[style_img.length - 1];
-    $.getJSON("/generate", { base_img: base_img, style_img: style_img }
-    ).done(function (combo_img) {
-        img_tag[2].setAttribute("src", upload_combo_path + combo_img);
-    });
+    style_img_name();
+
+    $.getJSON("/generate", {base_img: base_img, style_img: style_img},
+              function (combo_img) {
+                  img_tag[2].setAttribute("src", combo_img.url);
+                  dots = "Voila!"
+                  progress();
+              }
+    );
 }
 
-sendimg(img_tag[0], img_tag[1]);
+function style_img_name() {
+    split = style_img.indexOf("by");
+    name = style_img.slice(0, split - 1).replace(/-/g, " ");
+    artist = style_img.slice(split, style_img.length - 4).replace(/-/g, " ");
+    $(".style_name").text("In the style of " + name)
+    $(".style_artist").text(artist);
+}
+
+function progress() {
+    $("center").filter(":contains('.')").remove();
+    add_center(dots);
+}
+
+function add_center(text) {
+    var cent = document.createElement("center");
+    var node = document.createTextNode(text);
+    cent.appendChild(node);
+    elements[0].appendChild(cent);
+}
+
+setInterval(function(){
+    if (dots != "Voila!") {
+        progress();
+        dots += ".";
+    }
+}, 2500);
+
+generate_img(img_tag[0], img_tag[1]);
 </script>
 
 {% endblock %}
